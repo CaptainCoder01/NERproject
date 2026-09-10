@@ -35,9 +35,13 @@ def validate_weather_input(raw_data: Dict[str, Any]) -> Tuple[bool, str]:
     return True, "Valid"
 
 def transform_features(raw_data: Dict[str, Any]) -> pd.DataFrame:
+    # Convert absolute river level to relative baseline in the pipeline
+    NORMAL_BASELINE_M = 45.0
+    relative_river = float(raw_data['river_water_level']) - NORMAL_BASELINE_M
+    
     features = {
         'rainfall_mm': [float(raw_data['rainfall_mm'])],
-        'river_water_level': [float(raw_data['river_water_level'])],
+        'relative_river_level_m': [relative_river], # Send the new metric to the brain
         'soil_moisture_percent': [float(raw_data['soil_moisture_percent'])],
         'slope_angle_degrees': [float(raw_data['slope_angle_degrees'])],
         'wind_speed_kmh': [float(raw_data['wind_speed_kmh'])],

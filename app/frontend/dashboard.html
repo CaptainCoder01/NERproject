@@ -1,50 +1,230 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SIH Disaster Predictor Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Prediction Engine | NER</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --surface: #ffffff;
+            --bg: #f1f5f9;
+            --border: #cbd5e1;
+            --safe: #16a34a;
+            --danger: #dc2626;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .grid-container {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1000px;
+        }
+        .module {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            width: 380px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .module h3 { margin-top: 0; border-bottom: 2px solid var(--bg); padding-bottom: 12px; color: var(--primary); }
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .input-group label {
+            font-size: 14px;
+            font-weight: 600;
+            width: 60%;
+        }
+        .input-group input {
+            width: 35%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .input-group input:invalid { border-color: var(--danger); background-color: #fef2f2; }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            margin-top: 10px;
+        }
+        button:hover { opacity: 0.9; }
+        .feedback-display {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            min-height: 24px;
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+        }
+    </style>
 </head>
 <body>
-    <h2>Advanced ML Engine Test (Flood & Landslide)</h2>
-    
-    <p>Simulating extreme weather and vulnerable geology (Clay/Sedimentary, 42-degree slope)...</p>
-    <button onclick="testFullEngine()">Run Advanced Prediction</button>
-    
-    <h3 id="result-box" style="color: blue;">Waiting for input...</h3>
 
-    <script>
-        function testFullEngine() {
-            document.getElementById('result-box').innerText = "Analyzing geological and weather data...";
+    <div class="header">
+        <h2>ML Predictive Engine Architecture</h2>
+        <p>Testing structural data boundaries for Flood and Landslide models.</p>
+    </div>
+
+    <div class="grid-container">
+        
+        <!-- MODULE 1: PLAINS ARCHITECTURE (NORMAL CONDITIONS) -->
+        <div class="module" id="flood-form">
+            <h3>🌊 Flood Simulator (Plains)</h3>
             
-            // This payload exactly matches the dictionary keys your cleaner.py is looking for
-            const testPayload = {
-                rainfall_mm: 180.0,
-                river_water_level: 24.0,
-                soil_moisture_percent: 85.0,
-                slope_angle_degrees: 42.0,
-                wind_speed_kmh: 35.5,
-                vegetation_density_ndvi: 0.2,
-                soil_type: 'clay',
-                soil_texture: 'fine',
-                lithology: 'sedimentary'
+            <div class="input-group">
+                <label title="Amount of rain in 24 hours">Rainfall (mm):</label>
+                <!-- Set to a light drizzle -->
+                <input type="number" id="f_rain" value="15.0" min="0" max="400" step="1">
+            </div>
+            <div class="input-group">
+                <label title="Warning Level is 49.68m">River Level (m):</label>
+                <!-- Set to normal dry-season baseline -->
+                <input type="number" id="f_river" value="45.0" min="40.0" max="55.0" step="0.1">
+            </div>
+            <div class="input-group">
+                <label title="Plains are geologically flat">Slope Angle (0-10°):</label>
+                <input type="number" id="f_slope" value="2.0" min="0.0" max="10.0" step="0.1">
+            </div>
+            <div class="input-group">
+                <label title="1.0 is dense forest, 0.0 is bare dirt">Vegetation (NDVI):</label>
+                <!-- Set to healthy vegetation -->
+                <input type="number" id="f_ndvi" value="0.60" min="0.1" max="0.9" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Soil Moisture (%):</label>
+                <input type="number" id="f_moist" value="40.0" min="0" max="100" step="1">
+            </div>
+
+            <button onclick="dispatchPayload('flood')">Transmit Data to Backend</button>
+            <div id="f_feedback" class="feedback-display">System Ready.</div>
+        </div>
+
+        <!-- MODULE 2: HILLS ARCHITECTURE (NORMAL CONDITIONS) -->
+        <div class="module" id="landslide-form">
+            <h3>⛰️ Landslide Simulator (Hills)</h3>
+            
+            <div class="input-group">
+                <label title="Amount of rain in 24 hours">Rainfall (mm):</label>
+                <input type="number" id="l_rain" value="10.0" min="0" max="400" step="1">
+            </div>
+            <div class="input-group">
+                <label title="Hills are geologically steep">Slope Angle (15-80°):</label>
+                <input type="number" id="l_slope" value="45.0" min="15.0" max="80.0" step="0.1">
+            </div>
+            <div class="input-group">
+                <label title="Critical for root stability">Vegetation (NDVI):</label>
+                <!-- Set to thick, highly anchored forest roots -->
+                <input type="number" id="l_ndvi" value="0.75" min="0.0" max="0.9" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>River Level (m):</label>
+                <input type="number" id="l_river" value="40.0" min="30.0" max="45.0" step="0.1">
+            </div>
+            <div class="input-group">
+                <label>Soil Moisture (%):</label>
+                <input type="number" id="l_moist" value="35.0" min="0" max="100" step="1">
+            </div>
+
+            <button onclick="dispatchPayload('landslide')">Transmit Data to Backend</button>
+            <div id="l_feedback" class="feedback-display">System Ready.</div>
+        </div>
+
+    </div>
+    <script>
+        function validateInputs(prefix) {
+            // Validates that the HTML5 min/max boundaries haven't been breached
+            const inputs = [
+                document.getElementById(prefix + 'rain'),
+                document.getElementById(prefix + 'river'),
+                document.getElementById(prefix + 'slope'),
+                document.getElementById(prefix + 'ndvi'),
+                document.getElementById(prefix + 'moist')
+            ];
+            for (let input of inputs) {
+                if (!input.checkValidity()) return false;
+            }
+            return true;
+        }
+
+        function dispatchPayload(scenarioType) {
+            const prefix = scenarioType === 'flood' ? 'f_' : 'l_';
+            const feedbackBox = document.getElementById(prefix + 'feedback');
+            
+            // Structural Edge Enforcement
+            if (!validateInputs(prefix)) {
+                feedbackBox.style.color = "var(--danger)";
+                feedbackBox.style.borderColor = "var(--danger)";
+                feedbackBox.innerText = "Error: Input exceeds geological limits.";
+                return;
+            }
+
+            feedbackBox.style.color = "var(--primary)";
+            feedbackBox.style.borderColor = "var(--border)";
+            feedbackBox.innerText = "Routing payload to manager.py...";
+
+            // Assemble the JSON contract required by the Flask API
+            const payload = {
+                rainfall_mm: parseFloat(document.getElementById(prefix + 'rain').value),
+                river_water_level: parseFloat(document.getElementById(prefix + 'river').value),
+                soil_moisture_percent: parseFloat(document.getElementById(prefix + 'moist').value),
+                slope_angle_degrees: parseFloat(document.getElementById(prefix + 'slope').value),
+                vegetation_density_ndvi: parseFloat(document.getElementById(prefix + 'ndvi').value),
+                
+                // Static Environmental Constants
+                wind_speed_kmh: 15.0,
+                soil_type: scenarioType === 'flood' ? 'loam' : 'sand',
+                soil_texture: 'medium',
+                lithology: scenarioType === 'flood' ? 'sedimentary' : 'metamorphic'
             };
 
-            // Send the massive dictionary to your app.py Python server
             fetch('/api/predict', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(testPayload)
+                body: JSON.stringify(payload)
             })
             .then(response => response.json())
             .then(data => {
-                // Display the answer from manager.py on the screen
                 if(data.status === 'success') {
-                    document.getElementById('result-box').innerText = data.prediction;
+                    feedbackBox.innerText = data.prediction;
+                    const isDanger = data.prediction.includes("High Risk") || data.prediction.includes("1");
+                    
+                    feedbackBox.style.color = isDanger ? "var(--danger)" : "var(--safe)";
+                    feedbackBox.style.borderColor = isDanger ? "var(--danger)" : "var(--safe)";
+                    feedbackBox.style.backgroundColor = isDanger ? "#fef2f2" : "#f0fdf4";
                 } else {
-                    document.getElementById('result-box').innerText = "Error: " + data.message;
+                    feedbackBox.innerText = "Backend Architecture Error: " + data.message;
                 }
             })
             .catch(error => {
-                document.getElementById('result-box').innerText = "Network Error: Make sure app.py is running.";
+                feedbackBox.style.color = "var(--danger)";
+                feedbackBox.innerText = "Network Error: Flask server is unreachable.";
             });
         }
     </script>
