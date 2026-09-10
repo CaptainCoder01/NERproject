@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SIH Disaster Predictor Test</title>
+</head>
+<body>
+    <h2>Advanced ML Engine Test (Flood & Landslide)</h2>
+    
+    <p>Simulating extreme weather and vulnerable geology (Clay/Sedimentary, 42-degree slope)...</p>
+    <button onclick="testFullEngine()">Run Advanced Prediction</button>
+    
+    <h3 id="result-box" style="color: blue;">Waiting for input...</h3>
+
+    <script>
+        function testFullEngine() {
+            document.getElementById('result-box').innerText = "Analyzing geological and weather data...";
+            
+            // This payload exactly matches the dictionary keys your cleaner.py is looking for
+            const testPayload = {
+                rainfall_mm: 180.0,
+                river_water_level: 24.0,
+                soil_moisture_percent: 85.0,
+                slope_angle_degrees: 42.0,
+                wind_speed_kmh: 35.5,
+                vegetation_density_ndvi: 0.2,
+                soil_type: 'clay',
+                soil_texture: 'fine',
+                lithology: 'sedimentary'
+            };
+
+            // Send the massive dictionary to your app.py Python server
+            fetch('/api/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(testPayload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the answer from manager.py on the screen
+                if(data.status === 'success') {
+                    document.getElementById('result-box').innerText = data.prediction;
+                } else {
+                    document.getElementById('result-box').innerText = "Error: " + data.message;
+                }
+            })
+            .catch(error => {
+                document.getElementById('result-box').innerText = "Network Error: Make sure app.py is running.";
+            });
+        }
+    </script>
+</body>
+</html>
